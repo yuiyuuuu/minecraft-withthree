@@ -9,9 +9,9 @@ const Cube = ({ position, texture }) => {
   }));
 
   const [addCube, removeCube, playerPos] = useStore((state) => [
-    state.addCube,
-    state.removeCube,
-    state.playerPosition,
+    state?.addCube,
+    state?.removeCube,
+    state?.playerPosition,
   ]);
 
   const activeTexture = textures[texture + "Texture"];
@@ -24,9 +24,6 @@ const Cube = ({ position, texture }) => {
         const clickedFace = Math.floor(e.faceIndex / 2);
         const [x, y, z] = ref.current.position;
 
-        console.log("player", playerPos);
-        console.log("cube", x, y, z);
-        console.log("face", clickedFace);
         if (e.altKey) {
           removeCube(x, y, z);
           return;

@@ -4,7 +4,7 @@ import { Canvas } from "@react-three/fiber";
 import { Ground } from "./components/Ground.jsx";
 import { Player } from "./components/Player.jsx";
 import { FirstPersonView } from "./components/FirstPersonView.jsx";
-// import React from "react";
+import Menu from "./components/Menu.jsx";
 
 import dirtImage from "./images/dirt.jpeg";
 import glass from "./images/glass.png";
@@ -22,8 +22,8 @@ const App = () => {
   const [shouldShow, setShouldShow] = useState(false);
 
   const [texture, setTexture] = useStore((state) => [
-    state.texture,
-    state.setTexture,
+    state?.texture,
+    state?.setTexture,
   ]);
 
   const backquoteKey = useCallback((e) => {
@@ -80,6 +80,8 @@ const App = () => {
           <Ground />
         </Physics>
       </Canvas>
+
+      <Menu />
 
       <div
         className='pointer'

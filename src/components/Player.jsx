@@ -10,7 +10,7 @@ const jumpForce = 5;
 let speed = 4.5;
 
 export const Player = () => {
-  const savePlayerPos = useStore((state) => state.savePlayerPos);
+  const savePlayerPos = useStore((state) => state?.savePlayerPos);
 
   const actions = useKeyboard();
 
@@ -36,11 +36,13 @@ export const Player = () => {
       new Vector3(position.current[0], position.current[1], position.current[2]) //uses the useref's values as the position
     );
 
-    savePlayerPos(
-      position.current[0],
-      position.current[1],
-      position.current[2]
-    );
+    if (savePlayerPos) {
+      savePlayerPos(
+        position.current[0],
+        position.current[1],
+        position.current[2]
+      );
+    }
 
     //all movement
     const direction = new Vector3();

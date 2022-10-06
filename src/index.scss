@@ -27,3 +27,16 @@ body {
     helvetica neue, helvetica, ubuntu, roboto, noto, segoe ui, arial, sans-serif;
   font-size: 40px;
 }
+
+.buttons {
+  width: 50px;
+  height: 30px;
+  margin-left: 20px;
+  font-size: 14px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1.5px solid gray;
+  cursor: pointer;
+  color: black;
+}

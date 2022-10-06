@@ -5,8 +5,8 @@ import { useStore } from "../store/useStore";
 
 export const Ground = () => {
   const [addCube, playerPos] = useStore((state) => [
-    state.addCube,
-    state.playerPosition,
+    state?.addCube,
+    state?.playerPosition,
   ]);
 
   const [ref] = usePlane(() => ({
