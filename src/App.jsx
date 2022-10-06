@@ -15,8 +15,10 @@ import wood from "./images/wood.png";
 import "./index.scss";
 import Cubes from "./components/Cubes.jsx";
 
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useStore } from "./store/useStore.jsx";
+
+import $ from "jquery";
 
 const App = () => {
   const [shouldShow, setShouldShow] = useState(false);
@@ -56,8 +58,20 @@ const App = () => {
     }
   });
 
+  const handleScrollUp = useCallback(() => {
+    const v = window.scrollY;
+    let lastScroll = 0;
+    console.log("ran");
+    if (v < lastScroll) {
+      console.log("scrolling up");
+    }
+
+    lastScroll = v <= 0 ? 0 : v;
+  }, []);
+
   useEffect(() => {
     document.addEventListener("keydown", backquoteKey);
+    $("#canvas-main").on("scroll", handleScrollUp);
 
     document.addEventListener("keyup", (e) => {
       if (e.code === "Backquote") setShouldShow(false);
@@ -70,7 +84,7 @@ const App = () => {
 
   return (
     <>
-      <Canvas>
+      <Canvas id='canvas-main'>
         <Sky sunPosition={[100, 100, 20]} />
         <ambientLight intensity={0.5} />
         <FirstPersonView />
