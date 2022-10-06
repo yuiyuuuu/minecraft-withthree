@@ -2,7 +2,7 @@ import create from "zustand";
 import { nanoid } from "nanoid";
 
 export const useStore = create((set) => ({
-  texture: "dirt", //default cube
+  texture: "glass", //default cube
   cubes: [], //array of current cubes on the map
   addCube: (x, y, z) => {
     set((prev) => ({
@@ -17,7 +17,6 @@ export const useStore = create((set) => ({
     }));
   },
   removeCube: (x, y, z) => {
-    console.log("ran");
     set((prev) => ({
       cubes: prev.cubes.filter((cube) => {
         const [X, Y, Z] = cube.pos;
@@ -25,7 +24,11 @@ export const useStore = create((set) => ({
       }),
     }));
   },
-  setTexture: () => {},
+  setTexture: (texture) => {
+    set((prev) => ({
+      texture: texture,
+    }));
+  },
   saveWorld: () => {},
   resetWorld: () => {},
 }));

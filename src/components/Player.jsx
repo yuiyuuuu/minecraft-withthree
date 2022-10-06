@@ -4,15 +4,11 @@ import { useEffect, useRef } from "react";
 import { Vector3 } from "three";
 import { useKeyboard } from "../keyboard/UseKeyboard";
 
-const jumpForce = 3;
-const speed = 3;
+const jumpForce = 5;
+let speed = 4.5;
 
 export const Player = () => {
   const actions = useKeyboard();
-  console.log(
-    "actions",
-    Object.entries(actions).filter(([e, v]) => v)
-  );
 
   const { camera } = useThree();
   const [sphereRef, api] = useSphere(() => ({
@@ -61,6 +57,14 @@ export const Player = () => {
     if (actions.jump && Math.abs(velocity.current[1]) < 0.05) {
       api.velocity.set(velocity.current[0], jumpForce, velocity.current[2]);
     }
+  });
+
+  window.addEventListener("keydown", (e) => {
+    if (e.code === "Space") speed = 5.5;
+  });
+
+  window.addEventListener("keyup", (e) => {
+    if (e.code === "Space") speed = 4.5;
   });
 
   return <mesh ref={sphereRef}></mesh>;
