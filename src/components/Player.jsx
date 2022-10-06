@@ -54,7 +54,7 @@ export const Player = () => {
 
     api.velocity.set(direction.x, velocity.current[1], direction.z);
 
-    if (actions.jump && Math.abs(velocity.current[1]) < 0.05) {
+    if (actions.jump && Math.abs(velocity.current[1]) < 0.01) {
       api.velocity.set(velocity.current[0], jumpForce, velocity.current[2]);
     }
   });
