@@ -33,6 +33,13 @@ export const Ground = () => {
             : Math.round(v)
         );
 
+        if (
+          Math.abs(playerPos[0] - x) > 6 ||
+          Math.abs(playerPos[1] - y) > 6 ||
+          Math.abs(playerPos[2] - z) > 6
+        )
+          return;
+
         //checks for ground so we dont eject ourselves when we place a cube
         if (
           playerPos[1] < y + 1 &&

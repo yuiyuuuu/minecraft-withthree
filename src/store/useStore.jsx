@@ -2,8 +2,6 @@ import create from "zustand";
 import { nanoid } from "nanoid";
 
 const getLocalStorage = (key) => JSON.parse(window.localStorage.getItem(key));
-const setLocalStorage = (key, value) =>
-  window.localStorage.setItem(key, JSON.stringify(value));
 
 export const useStore = create((set) => ({
   texture: "glass", //default cube
@@ -39,12 +37,7 @@ export const useStore = create((set) => ({
       playerPosition: [x, y, z],
     }));
   },
-  // saveWorld: () => {
-  //   set((prev) => ({
-  //     // setLocalStorage("cubes", []);
-  //     cubes: [{ key: 123, pos: [1, 2, 3], texture: "grass" }],
-  //   }));
-  // },
+
   resetWorld: () => {
     set(() => ({
       cubes: [],

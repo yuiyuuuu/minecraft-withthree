@@ -23,6 +23,12 @@ const Cube = ({ position, texture }) => {
         e.stopPropagation();
         const clickedFace = Math.floor(e.faceIndex / 2);
         const [x, y, z] = ref.current.position;
+        if (
+          Math.abs(playerPos[0] - x) > 6 ||
+          Math.abs(playerPos[1] - y) > 6 ||
+          Math.abs(playerPos[2] - z) > 6
+        )
+          return;
 
         if (e.altKey) {
           removeCube(x, y, z);
@@ -62,11 +68,18 @@ const Cube = ({ position, texture }) => {
         }
 
         if (clickedFace === 2) {
+          if (
+            Math.abs(x - playerPos[0]) > 1.4 ||
+            Math.abs(z - playerPos[2]) > 1.4
+          ) {
+            addCube(x, y + 1, z);
+            return;
+          }
+
           if (playerPos[1] < y + 2 && playerPos[1] > y) {
             return;
-          } else {
-            addCube(x, y + 1, z);
           }
+          addCube(x, y + 1, z);
         }
 
         if (clickedFace === 3) {
