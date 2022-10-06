@@ -74,7 +74,7 @@ const App = () => {
         <Sky sunPosition={[100, 100, 20]} />
         <ambientLight intensity={0.5} />
         <FirstPersonView />
-        <Physics gravity={[0, -23.81, 0]}>
+        <Physics gravity={[0, -15.81, 0]}>
           <Player />
           <Cubes />
           <Ground />
