@@ -8,9 +8,10 @@ const Cube = ({ position, texture }) => {
     position,
   }));
 
-  const [addCube, removeCube] = useStore((state) => [
+  const [addCube, removeCube, playerPos] = useStore((state) => [
     state.addCube,
     state.removeCube,
+    state.playerPosition,
   ]);
 
   const activeTexture = textures[texture + "Texture"];
@@ -23,29 +24,52 @@ const Cube = ({ position, texture }) => {
         const clickedFace = Math.floor(e.faceIndex / 2);
         const [x, y, z] = ref.current.position;
 
+        console.log("player", playerPos);
+        console.log("cube", x, y, z);
+        console.log("face", clickedFace);
         if (e.altKey) {
           removeCube(x, y, z);
           return;
         }
 
         if (clickedFace === 1) {
-          addCube(x - 1, y, z);
+          if (playerPos[0] < x && playerPos[0] > x - 2) {
+            return;
+          } else {
+            addCube(x - 1, y, z);
+          }
         }
 
         if (clickedFace === 4) {
-          addCube(x, y, z + 1);
+          if (playerPos[2] > z && playerPos[2] < z + 2) {
+            return;
+          } else {
+            addCube(x, y, z + 1);
+          }
         }
 
         if (clickedFace === 0) {
-          addCube(x + 1, y, z);
+          if (playerPos[0] > x && playerPos[0] < x + 2) {
+            return;
+          } else {
+            addCube(x + 1, y, z);
+          }
         }
 
         if (clickedFace === 5) {
-          addCube(x, y, z - 1);
+          if (playerPos[2] < z && playerPos[2] > z - 2) {
+            return;
+          } else {
+            addCube(x, y, z - 1);
+          }
         }
 
         if (clickedFace === 2) {
-          addCube(x, y + 1, z);
+          if (playerPos[1] < y + 2 && playerPos[1] > y) {
+            return;
+          } else {
+            addCube(x, y + 1, z);
+          }
         }
 
         if (clickedFace === 3) {

@@ -4,7 +4,10 @@ import { groundTexture } from "../images/textures";
 import { useStore } from "../store/useStore";
 
 export const Ground = () => {
-  const [addCube] = useStore((state) => [state.addCube]);
+  const [addCube, playerPos] = useStore((state) => [
+    state.addCube,
+    state.playerPosition,
+  ]);
 
   const [ref] = usePlane(() => ({
     rotation: [-Math.PI / 2, 0, 0], //flatten ground
@@ -21,6 +24,7 @@ export const Ground = () => {
       ref={ref}
       onClick={(e) => {
         e.stopPropagation();
+
         const [x, y, z] = Object.values(e.point).map((v, index) =>
           index === 1
             ? Math.round(v) < -0.5
@@ -28,6 +32,17 @@ export const Ground = () => {
               : Math.round(v)
             : Math.round(v)
         );
+
+        //checks for ground so we dont eject ourselves when we place a cube
+        if (
+          playerPos[1] < y + 1 &&
+          playerPos[1] > y &&
+          playerPos[0] < x + 2 &&
+          playerPos[0] > x - 2 &&
+          playerPos[2] < z + 2 &&
+          playerPos[2] > z - 2
+        )
+          return;
         addCube(x, y, z);
       }}
     >

@@ -4,6 +4,7 @@ import { nanoid } from "nanoid";
 export const useStore = create((set) => ({
   texture: "glass", //default cube
   cubes: [], //array of current cubes on the map
+  playerPosition: [],
   addCube: (x, y, z) => {
     set((prev) => ({
       cubes: [
@@ -27,6 +28,11 @@ export const useStore = create((set) => ({
   setTexture: (texture) => {
     set((prev) => ({
       texture: texture,
+    }));
+  },
+  savePlayerPos: (x, y, z) => {
+    set((prev) => ({
+      playerPosition: [x, y, z],
     }));
   },
   saveWorld: () => {},

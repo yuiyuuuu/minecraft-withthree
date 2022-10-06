@@ -4,10 +4,14 @@ import { useEffect, useRef } from "react";
 import { Vector3 } from "three";
 import { useKeyboard } from "../keyboard/UseKeyboard";
 
+import { useStore } from "../store/useStore.jsx";
+
 const jumpForce = 5;
 let speed = 4.5;
 
 export const Player = () => {
+  const savePlayerPos = useStore((state) => state.savePlayerPos);
+
   const actions = useKeyboard();
 
   const { camera } = useThree();
@@ -17,7 +21,7 @@ export const Player = () => {
     position: [0, 2, 0],
   }));
 
-  const velocity = useRef([0, 0, 0]); //tracks the position of sphere
+  const velocity = useRef([0, 0, 0]); //tracks how fast were going
   useEffect(() => {
     api.velocity.subscribe((v) => (velocity.current = v));
   }, [api.velocity]);
@@ -30,6 +34,12 @@ export const Player = () => {
   useFrame(() => {
     camera.position.copy(
       new Vector3(position.current[0], position.current[1], position.current[2]) //uses the useref's values as the position
+    );
+
+    savePlayerPos(
+      position.current[0],
+      position.current[1],
+      position.current[2]
     );
 
     //all movement
