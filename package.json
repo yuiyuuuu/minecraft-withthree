@@ -8,6 +8,7 @@
     "@react-three/fiber": "^8.8.8",
     "@vitejs/plugin-react": "^2.1.0",
     "nanoid": "^4.0.0",
+    "nodemon": "^2.0.20",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-scripts": "5.0.1",
@@ -16,7 +17,7 @@
     "zustand": "^4.1.1"
   },
   "scripts": {
-    "start": "vite --port $PORT",
+    "start": "nodemon server",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "dev": "vite --mode=development",
