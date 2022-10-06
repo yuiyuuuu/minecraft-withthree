@@ -3,18 +3,7 @@ import { nanoid } from "nanoid";
 
 export const useStore = create((set) => ({
   texture: "dirt", //default cube
-  cubes: [
-    {
-      key: nanoid(),
-      pos: [1, 0.5, 1],
-      texture: "dirt",
-    },
-    {
-      key: nanoid(),
-      pos: [10, 0.5, 1],
-      texture: "grass",
-    },
-  ], //array of current cubes on the map
+  cubes: [], //array of current cubes on the map
   addCube: (x, y, z) => {
     set((prev) => ({
       cubes: [
@@ -27,7 +16,15 @@ export const useStore = create((set) => ({
       ],
     }));
   },
-  removeCube: () => {},
+  removeCube: (x, y, z) => {
+    console.log("ran");
+    set((prev) => ({
+      cubes: prev.cubes.filter((cube) => {
+        const [X, Y, Z] = cube.pos;
+        return X !== x || Y !== y || Z !== z; //return for filter means if any of these are true, then we keep the object. if all of them are false, then we remove
+      }),
+    }));
+  },
   setTexture: () => {},
   saveWorld: () => {},
   resetWorld: () => {},
