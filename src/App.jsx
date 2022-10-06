@@ -15,13 +15,16 @@ import wood from "./images/wood.png";
 import "./index.scss";
 import Cubes from "./components/Cubes.jsx";
 
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useStore } from "./store/useStore.jsx";
 
 import $ from "jquery";
 
 const App = () => {
   const [shouldShow, setShouldShow] = useState(false);
+  const [showHelp, setShowHelp] = useState(false);
+
+  const [gravity, setGravity] = useState(true);
 
   const [texture, setTexture] = useStore((state) => [
     state?.texture,
@@ -58,20 +61,8 @@ const App = () => {
     }
   });
 
-  const handleScrollUp = useCallback(() => {
-    const v = window.scrollY;
-    let lastScroll = 0;
-    console.log("ran");
-    if (v < lastScroll) {
-      console.log("scrolling up");
-    }
-
-    lastScroll = v <= 0 ? 0 : v;
-  }, []);
-
   useEffect(() => {
     document.addEventListener("keydown", backquoteKey);
-    $("#canvas-main").on("scroll", handleScrollUp);
 
     document.addEventListener("keyup", (e) => {
       if (e.code === "Backquote") setShouldShow(false);
@@ -82,20 +73,47 @@ const App = () => {
     };
   }, [texture]);
 
+  useEffect(() => {
+    function handleCaps(e) {
+      if (e.code === "ShiftLeft") {
+        setShowHelp(true);
+      }
+    }
+
+    function removeCaps(e) {
+      if (e.code === "ShiftLeft") {
+        setShowHelp(false);
+      }
+    }
+    document.addEventListener("keydown", handleCaps);
+
+    document.addEventListener("keyup", removeCaps);
+
+    return () => {
+      document.removeEventListener("keydown", handleCaps);
+      document.removeEventListener("keyup", removeCaps);
+    };
+  }, [showHelp]);
+
+  // console.log(showHelp);
   return (
     <>
-      <Canvas id='canvas-main'>
+      <Canvas
+        id='canvas-main'
+        style={{ pointerEvents: "none" }}
+        className='disabled'
+      >
         <Sky sunPosition={[100, 100, 20]} />
         <ambientLight intensity={0.5} />
         <FirstPersonView />
-        <Physics gravity={[0, -15.81, 0]}>
+        <Physics gravity={gravity ? [0, -15.81, 0] : [0, -2, 0]}>
           <Player />
           <Cubes />
           <Ground />
         </Physics>
       </Canvas>
 
-      <Menu />
+      <Menu setGravity={setGravity} />
 
       <div
         className='pointer'
@@ -149,6 +167,41 @@ const App = () => {
           alt='wood'
           style={{ border: texture === "wood" ? "3px solid red" : "" }}
         />
+      </div>
+
+      <div
+        className='overlay-parent'
+        style={{ display: showHelp ? "" : "none" }}
+      >
+        <div className='instructions-overlay'>
+          <div>Tutorial</div>
+
+          <div className='tutorial'>Movement - W, A, S, D</div>
+          <div className='tutorial'>Jump - Space</div>
+          <div className='tutorial'>Left Click - Place Block</div>
+          <div className='tutorial'>
+            Alt/Option + Left Click - Destroy Block
+          </div>
+          <div className='tutorial'>Camera - Mouse / Trackpad</div>
+          <div className='tutorial'>
+            Switch Block - ` key (top left of keyboard below esc key)
+          </div>
+          <a
+            href='https://github.com/yuiyuuuu/minecraft-withthree'
+            target='_blank'
+            rel='noreferrer'
+          >
+            <div className='tutorial link'>
+              Source Code (click esc then click link)
+            </div>
+          </a>
+        </div>
+      </div>
+
+      <div
+        style={{ position: "absolute", top: 20, right: 20, fontSize: "12px" }}
+      >
+        Hold left shift on your keyboard for instructions
       </div>
     </>
   );

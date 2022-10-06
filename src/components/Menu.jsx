@@ -4,7 +4,7 @@ import { useStore } from "../store/useStore";
 const setLocalStorage = (key, value) =>
   window.localStorage.setItem(key, JSON.stringify(value));
 
-const Menu = () => {
+const Menu = ({ setGravity }) => {
   const [reset, cubes] = useStore((state) => [state?.resetWorld, state.cubes]);
 
   function saveWorld() {
@@ -13,7 +13,7 @@ const Menu = () => {
   return (
     <div
       style={{
-        width: "200px",
+        width: "250px",
         display: "flex",
         flexDirection: "row",
         position: "absolute",
@@ -24,8 +24,20 @@ const Menu = () => {
       <div className='buttons' onClick={() => saveWorld()}>
         Save
       </div>
-      <div className='buttons' onClick={() => reset()}>
+      <div
+        className='buttons'
+        style={{ width: "80px" }}
+        onClick={() => reset()}
+      >
         Reset
+      </div>
+
+      <div
+        className='buttons'
+        style={{ width: "100px" }}
+        onClick={() => setGravity((prev) => !prev)}
+      >
+        Gravity
       </div>
     </div>
   );
